@@ -1,0 +1,35 @@
+# Environment Variables & Secrets (DO NOT COMMIT)
+.env
+.env.local
+.env.*
+*.env
+
+# Local Databases
+scamguard.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# OS Generated Files & Office Temp
+.DS_Store
+Thumbs.db
+~$*
+
+# Local Academic Documents & Helper Scripts
+*.docx
+*.pptx
+build_full_report.py
+create_presentation.py
+report_helpers.py
+extracted_ppt_images/
