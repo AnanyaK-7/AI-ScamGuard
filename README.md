@@ -19,7 +19,7 @@ Users receive instant feedback including a **Risk Score (0–100)**, **Risk Asse
   - **18+ Indicator Categories**: Detects OTP/CVV phishing, Urgency/Pressure, Bank/Financial requests, Impersonation, Lottery/Prize fraud, Crypto scams, QR Code tricks, and Remote Access Apps (AnyDesk, TeamViewer).
   - **🔍 Keyword Highlighting**: Visually highlights suspicious scam terms directly in the text/speech transcript using red badges.
   - **🌐 Entity Extraction**: Automatically extracts spoken or written Phone Numbers, Email Addresses, and Suspicious URLs.
-  - **🧠 Threat Intelligence**: Categorizes scams into specific types (e.g. OTP Scam, Bank Scam, Phishing, Tech Support Scam, UPI Scam, Social Engineering).
+  - **🧠 Threat Intelligence**: Categorizes scams into specific types (e.g. OTP Scam, Bank Scam, Phishing, Tech Support Scam, UPI Scam, Social Engineering scam).
   - **🛡️ Recommended Safety Action**: Provides immediate safety guidance tailored to the detected risk level.
 - **🎙️ Audio & Speech Capabilities**:
   - Supports audio file formats (`.mp3`, `.wav`, `.m4a`, `.flac`, `.ogg`, `.aac`).
