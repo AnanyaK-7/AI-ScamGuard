@@ -95,19 +95,23 @@ st.set_page_config(
 # ------------------------------------------------------------------------------
 # THEME & CUSTOM CSS
 # ------------------------------------------------------------------------------
-def apply_custom_css(theme_mode="Dark"):
+def apply_custom_css(theme_mode="Light"):
     is_dark = (theme_mode == "Dark")
-    bg_color = "#0e1117" if is_dark else "#f8f9fa"
+    bg_color = "#0e1117" if is_dark else "#f8fafc"
     card_bg = "#161b26" if is_dark else "#ffffff"
     text_color = "#f8fafc" if is_dark else "#0f172a"
-    subtext_color = "#e2e8f0" if is_dark else "#334155"
+    subtext_color = "#cbd5e1" if is_dark else "#334155"
+    caption_color = "#94a3b8" if is_dark else "#475569"
     border_color = "#2e3440" if is_dark else "#e2e8f0"
-    sidebar_bg = "#11141c" if is_dark else "#f8f9fa"
-    metric_val_color = "#38bdf8" if is_dark else "#0284c7"
+    sidebar_bg = "#11141c" if is_dark else "#ffffff"
+    metric_val_color = "#38bdf8" if is_dark else "#0f172a"
     metric_lbl_color = "#cbd5e1" if is_dark else "#475569"
     btn_bg = "#1e293b" if is_dark else "#ffffff"
     btn_text = "#ffffff" if is_dark else "#0f172a"
     btn_border = "#475569" if is_dark else "#cbd5e1"
+    info_bg = "#0f1f38" if is_dark else "#eff6ff"
+    info_text = "#bfdbfe" if is_dark else "#1e40af"
+    info_border = "#1e40af" if is_dark else "#bfdbfe"
     
     st.markdown(f"""
     <style>
@@ -126,30 +130,30 @@ def apply_custom_css(theme_mode="Dark"):
         [data-testid="stSidebar"] h2,
         [data-testid="stSidebar"] h3,
         [data-testid="stSidebar"] h4 {{
-            color: #ffffff !important;
+            color: {text_color} !important;
         }}
         [data-testid="stSidebar"] p,
         [data-testid="stSidebar"] span,
         [data-testid="stSidebar"] label,
         [data-testid="stSidebar"] div {{
-            color: #e2e8f0 !important;
+            color: {subtext_color} !important;
         }}
         [data-testid="stSidebar"] [data-testid="stRadio"] label {{
-            color: #f1f5f9 !important;
+            color: {text_color} !important;
             font-size: 14.5px !important;
             font-weight: 500 !important;
         }}
         
-        /* 3. Metrics - High-Contrast Distinct Colors */
+        /* 3. Metric Cards - High-Contrast Visible Tiles */
         [data-testid="stMetric"] {{
             background-color: {card_bg} !important;
             border: 1px solid {border_color} !important;
             border-radius: 12px !important;
             padding: 16px 20px !important;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
         }}
         [data-testid="stMetric"]:hover {{
-            border-color: #38bdf8 !important;
+            border-color: #6366f1 !important;
         }}
         [data-testid="stMetricLabel"] {{
             color: {metric_lbl_color} !important;
@@ -178,7 +182,7 @@ def apply_custom_css(theme_mode="Dark"):
             font-weight: 700 !important;
         }}
 
-        /* 4. Audio Section: File Uploader & Browse Button (Fixed White-on-White) */
+        /* 4. Audio Section: File Uploader & Browse Button */
         [data-testid="stFileUploadDropzone"],
         section[data-testid="stFileUploadDropzone"] {{
             background-color: {card_bg} !important;
@@ -188,18 +192,18 @@ def apply_custom_css(theme_mode="Dark"):
             text-align: center !important;
         }}
         [data-testid="stFileUploadDropzone"] * {{
-            color: #cbd5e1 !important;
+            color: {subtext_color} !important;
         }}
         [data-testid="stFileUploadDropzone"] span {{
-            color: #f8fafc !important;
+            color: {text_color} !important;
             font-weight: 600 !important;
             font-size: 15px !important;
         }}
         [data-testid="stFileUploadDropzone"] small {{
-            color: #94a3b8 !important;
+            color: {caption_color} !important;
             font-size: 12.5px !important;
         }}
-        /* Explicit High-Contrast Red Upload Button */
+        /* Prominent Crimson Red Browse Button - NEVER WHITE-ON-WHITE */
         [data-testid="stFileUploadDropzone"] button,
         [data-testid="stFileUploader"] button,
         section[data-testid="stFileUploadDropzone"] button,
@@ -209,10 +213,10 @@ def apply_custom_css(theme_mode="Dark"):
             color: #ffffff !important;
             border: none !important;
             border-radius: 8px !important;
-            padding: 8px 22px !important;
+            padding: 9px 24px !important;
             font-weight: 700 !important;
-            font-size: 14px !important;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4) !important;
+            font-size: 14.5px !important;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35) !important;
             transition: all 0.2s ease !important;
         }}
         [data-testid="stFileUploadDropzone"] button *,
@@ -247,7 +251,6 @@ def apply_custom_css(theme_mode="Dark"):
         }}
         div.stButton > button:hover,
         button[kind="secondary"]:hover {{
-            background-color: #2e3440 !important;
             border-color: #ef4444 !important;
             color: #ef4444 !important;
         }}
@@ -275,20 +278,20 @@ def apply_custom_css(theme_mode="Dark"):
 
         /* 6. Alert & Notification Boxes */
         div[data-testid="stAlert"] {{
-            background-color: #0f1f38 !important;
-            border: 1px solid #1e40af !important;
-            color: #bfdbfe !important;
+            background-color: {info_bg} !important;
+            border: 1px solid {info_border} !important;
+            color: {info_text} !important;
             border-radius: 8px !important;
             padding: 14px 18px !important;
         }}
         div[data-testid="stAlert"] * {{
-            color: #dbeafe !important;
+            color: {info_text} !important;
             font-weight: 500 !important;
         }}
 
         /* 7. Headings & Typography */
         h1, h2, h3, h4, h5, h6 {{
-            color: #ffffff !important;
+            color: {text_color} !important;
             font-weight: 700 !important;
         }}
         .stMarkdown p, .stMarkdown li, .stMarkdown span {{
@@ -297,13 +300,14 @@ def apply_custom_css(theme_mode="Dark"):
             line-height: 1.6 !important;
         }}
         .stCaption, [data-testid="stCaptionContainer"] {{
-            color: #94a3b8 !important;
-            font-size: 13px !important;
+            color: {caption_color} !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
         }}
 
         /* 8. Tabs */
         button[data-baseweb="tab"] {{
-            color: #cbd5e1 !important;
+            color: {caption_color} !important;
             font-weight: 600 !important;
             font-size: 15px !important;
         }}
@@ -325,9 +329,9 @@ def apply_custom_css(theme_mode="Dark"):
         .stTextArea label,
         .stTextInput label,
         .stSelectbox label {{
-            color: #ffffff !important;
+            color: {text_color} !important;
             font-weight: 600 !important;
-            font-size: 14px !important;
+            font-size: 14.5px !important;
         }}
 
         /* 10. Badges & Highlights */
@@ -337,10 +341,11 @@ def apply_custom_css(theme_mode="Dark"):
             border-radius: 14px;
             padding: 20px;
             margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         }}
         .metric-container {{
-            background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+            background: {card_bg};
+            border: 1px solid {border_color};
             border-left: 4px solid #6366f1;
             padding: 15px;
             border-radius: 10px;
@@ -348,8 +353,8 @@ def apply_custom_css(theme_mode="Dark"):
         .badge-critical {{ background-color: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
         .badge-high {{ background-color: #f97316; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
         .badge-medium {{ background-color: #eab308; color: black; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
-        .badge-low {{ background-color: #22c55e; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
-        .highlight-keyword {{ background-color: rgba(239, 68, 68, 0.35); color: #fca5a5; border-bottom: 2px solid #ef4444; padding: 0 4px; border-radius: 4px; font-weight: 700; }}
+        .badge-low {{ background-color: #16a34a; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
+        .highlight-keyword {{ background-color: rgba(239, 68, 68, 0.2); color: #dc2626; border-bottom: 2px solid #ef4444; padding: 0 4px; border-radius: 4px; font-weight: 700; }}
     </style>
     """, unsafe_allow_html=True)
 
@@ -649,7 +654,7 @@ def fetch_all_history():
 # ------------------------------------------------------------------------------
 def main():
     if "theme" not in st.session_state:
-        st.session_state.theme = "Dark"
+        st.session_state.theme = "Light"
     apply_custom_css(st.session_state.theme)
 
     model = load_ml_model()
@@ -1021,7 +1026,7 @@ def render_settings_page():
     st.session_state["audio_language"] = lang_choice
     
     st.markdown("### 🎨 Theme Customization")
-    theme_choice = st.radio("App Theme:", ["Dark", "Light"], index=0 if st.session_state.get("theme", "Dark") == "Dark" else 1)
+    theme_choice = st.radio("App Theme:", ["Light", "Dark"], index=0 if st.session_state.get("theme", "Light") == "Light" else 1)
     if theme_choice != st.session_state.get("theme"):
         st.session_state["theme"] = theme_choice
         st.rerun()
