@@ -32,4 +32,5 @@ Thumbs.db
 build_full_report.py
 create_presentation.py
 report_helpers.py
+generate_final_report.py
 extracted_ppt_images/

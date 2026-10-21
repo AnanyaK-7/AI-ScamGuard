@@ -96,21 +96,105 @@ st.set_page_config(
 # THEME & CUSTOM CSS
 # ------------------------------------------------------------------------------
 def apply_custom_css(theme_mode="Dark"):
-    bg_color = "#0e1117" if theme_mode == "Dark" else "#f8f9fa"
-    card_bg = "#1e222d" if theme_mode == "Dark" else "#ffffff"
-    text_color = "#ffffff" if theme_mode == "Dark" else "#212529"
-    border_color = "#2e3440" if theme_mode == "Dark" else "#e9ecef"
+    is_dark = (theme_mode == "Dark")
+    bg_color = "#0e1117" if is_dark else "#f8f9fa"
+    card_bg = "#1e222d" if is_dark else "#ffffff"
+    text_color = "#ffffff" if is_dark else "#0f172a"
+    subtext_color = "#e2e8f0" if is_dark else "#334155"
+    border_color = "#2e3440" if is_dark else "#e2e8f0"
+    sidebar_bg = "#161b22" if is_dark else "#f8f9fa"
+    metric_val_color = "#f8fafc" if is_dark else "#0f172a"
+    metric_lbl_color = "#94a3b8" if is_dark else "#475569"
+    btn_bg = "#1e293b" if is_dark else "#ffffff"
+    btn_text = "#f8fafc" if is_dark else "#0f172a"
+    btn_border = "#475569" if is_dark else "#cbd5e1"
+    info_bg = "#172554" if is_dark else "#eff6ff"
+    info_text = "#bfdbfe" if is_dark else "#1e40af"
+    info_border = "#2563eb" if is_dark else "#bfdbfe"
     
     st.markdown(f"""
     <style>
-        .stApp {{ background-color: {bg_color}; color: {text_color}; }}
+        .stApp {{
+            background-color: {bg_color};
+            color: {text_color};
+        }}
+        [data-testid="stSidebar"] {{
+            background-color: {sidebar_bg} !important;
+            border-right: 1px solid {border_color} !important;
+        }}
+        [data-testid="stSidebar"] * {{
+            color: {text_color} !important;
+        }}
+        /* High-Contrast Streamlit Metrics */
+        [data-testid="stMetricValue"] {{
+            color: {metric_val_color} !important;
+            font-weight: 800 !important;
+            font-size: 28px !important;
+        }}
+        [data-testid="stMetricValue"] * {{
+            color: {metric_val_color} !important;
+            font-weight: 800 !important;
+        }}
+        [data-testid="stMetricLabel"] {{
+            color: {metric_lbl_color} !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+        }}
+        [data-testid="stMetricLabel"] * {{
+            color: {metric_lbl_color} !important;
+            font-weight: 600 !important;
+        }}
+        /* High-Contrast Info/Alert Boxes */
+        div[data-testid="stAlert"] {{
+            background-color: {info_bg} !important;
+            color: {info_text} !important;
+            border: 1px solid {info_border} !important;
+            border-radius: 8px !important;
+        }}
+        div[data-testid="stAlert"] * {{
+            color: {info_text} !important;
+            font-weight: 500 !important;
+        }}
+        /* Buttons */
+        div.stButton > button {{
+            background-color: {btn_bg} !important;
+            color: {btn_text} !important;
+            border: 1px solid {btn_border} !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            transition: all 0.2s ease-in-out;
+        }}
+        div.stButton > button:hover {{
+            border-color: #ef4444 !important;
+            color: #ef4444 !important;
+        }}
+        button[kind="primary"] {{
+            background-color: #ef4444 !important;
+            color: #ffffff !important;
+            border: none !important;
+        }}
+        button[kind="primary"]:hover {{
+            background-color: #dc2626 !important;
+            color: #ffffff !important;
+        }}
+        /* Typography & Headers */
+        h1, h2, h3, h4, h5, h6 {{
+            color: {text_color} !important;
+            font-weight: 700 !important;
+        }}
+        p, span, label, li {{
+            color: {subtext_color};
+        }}
+        .stCaption, [data-testid="stCaptionContainer"] {{
+            color: {metric_lbl_color} !important;
+        }}
         .scam-card {{
             background: {card_bg};
             border: 1px solid {border_color};
             border-radius: 14px;
             padding: 20px;
             margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }}
         .metric-container {{
             background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
