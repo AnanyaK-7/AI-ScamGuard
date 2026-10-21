@@ -95,266 +95,262 @@ st.set_page_config(
 # ------------------------------------------------------------------------------
 # THEME & CUSTOM CSS
 # ------------------------------------------------------------------------------
-def apply_custom_css(theme_mode="Light"):
-    is_dark = (theme_mode == "Dark")
-    bg_color = "#0e1117" if is_dark else "#f8fafc"
-    card_bg = "#161b26" if is_dark else "#ffffff"
-    text_color = "#f8fafc" if is_dark else "#0f172a"
-    subtext_color = "#cbd5e1" if is_dark else "#334155"
-    caption_color = "#94a3b8" if is_dark else "#475569"
-    border_color = "#2e3440" if is_dark else "#e2e8f0"
-    sidebar_bg = "#11141c" if is_dark else "#ffffff"
-    metric_val_color = "#38bdf8" if is_dark else "#0f172a"
-    metric_lbl_color = "#cbd5e1" if is_dark else "#475569"
-    btn_bg = "#1e293b" if is_dark else "#ffffff"
-    btn_text = "#ffffff" if is_dark else "#0f172a"
-    btn_border = "#475569" if is_dark else "#cbd5e1"
-    info_bg = "#0f1f38" if is_dark else "#eff6ff"
-    info_text = "#bfdbfe" if is_dark else "#1e40af"
-    info_border = "#1e40af" if is_dark else "#bfdbfe"
-    
-    st.markdown(f"""
+def apply_custom_css():
+    st.markdown("""
     <style>
-        /* 1. Global Page Background & Text */
-        .stApp {{
-            background-color: {bg_color} !important;
-            color: {text_color} !important;
-        }}
+        /* 1. FORCE CLEAN LIGHT THEME ON ALL APP CONTAINERS */
+        html, body, [class*="css"], .stApp, [data-testid="stAppViewContainer"], section.main, div.block-container {
+            background-color: #f8fafc !important;
+            color: #0f172a !important;
+        }
+        [data-testid="stHeader"], [data-testid="stToolbar"] {
+            background-color: #f8fafc !important;
+        }
         
-        /* 2. Sidebar Styling */
-        [data-testid="stSidebar"] {{
-            background-color: {sidebar_bg} !important;
-            border-right: 1px solid {border_color} !important;
-        }}
+        /* 2. SIDEBAR - CLEAN WHITE */
+        [data-testid="stSidebar"], [data-testid="stSidebarNav"] {
+            background-color: #ffffff !important;
+            border-right: 1px solid #e2e8f0 !important;
+        }
         [data-testid="stSidebar"] h1,
         [data-testid="stSidebar"] h2,
         [data-testid="stSidebar"] h3,
-        [data-testid="stSidebar"] h4 {{
-            color: {text_color} !important;
-        }}
+        [data-testid="stSidebar"] h4 {
+            color: #0f172a !important;
+            font-weight: 700 !important;
+        }
         [data-testid="stSidebar"] p,
         [data-testid="stSidebar"] span,
         [data-testid="stSidebar"] label,
-        [data-testid="stSidebar"] div {{
-            color: {subtext_color} !important;
-        }}
-        [data-testid="stSidebar"] [data-testid="stRadio"] label {{
-            color: {text_color} !important;
+        [data-testid="stSidebar"] div {
+            color: #334155 !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stRadio"] label {
+            color: #0f172a !important;
             font-size: 14.5px !important;
-            font-weight: 500 !important;
-        }}
-        
-        /* 3. Metric Cards - High-Contrast Visible Tiles */
-        [data-testid="stMetric"] {{
-            background-color: {card_bg} !important;
-            border: 1px solid {border_color} !important;
+            font-weight: 600 !important;
+        }
+
+        /* 3. METRICS - PROMINENT WHITE TILES WITH DARK BOLD TEXT */
+        [data-testid="stMetric"] {
+            background-color: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
             border-radius: 12px !important;
             padding: 16px 20px !important;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
-        }}
-        [data-testid="stMetric"]:hover {{
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        }
+        [data-testid="stMetric"]:hover {
             border-color: #6366f1 !important;
-        }}
-        [data-testid="stMetricLabel"] {{
-            color: {metric_lbl_color} !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.12) !important;
+        }
+        [data-testid="stMetricLabel"],
+        [data-testid="stMetricLabel"] *,
+        [data-testid="stMetricLabel"] p {
+            color: #475569 !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
             text-transform: uppercase !important;
             letter-spacing: 0.5px !important;
-        }}
-        [data-testid="stMetricLabel"] * {{
-            color: {metric_lbl_color} !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
-        }}
-        [data-testid="stMetricValue"] {{
-            color: {metric_val_color} !important;
+        }
+        [data-testid="stMetricValue"],
+        [data-testid="stMetricValue"] *,
+        [data-testid="stMetricValue"] div {
+            color: #0f172a !important;
             font-size: 32px !important;
             font-weight: 800 !important;
             line-height: 1.2 !important;
-        }}
-        [data-testid="stMetricValue"] * {{
-            color: {metric_val_color} !important;
-            font-weight: 800 !important;
-        }}
-        [data-testid="stMetricDelta"] {{
+        }
+        [data-testid="stMetricDelta"] {
             font-size: 13px !important;
             font-weight: 700 !important;
-        }}
+        }
 
-        /* 4. Audio Section: File Uploader & Browse Button */
+        /* 4. AUDIO SECTION: DROPZONE & RED BROWSE BUTTON */
         [data-testid="stFileUploadDropzone"],
-        section[data-testid="stFileUploadDropzone"] {{
-            background-color: {card_bg} !important;
+        section[data-testid="stFileUploadDropzone"] {
+            background-color: #ffffff !important;
             border: 2px dashed #6366f1 !important;
             border-radius: 12px !important;
             padding: 24px 20px !important;
             text-align: center !important;
-        }}
-        [data-testid="stFileUploadDropzone"] * {{
-            color: {subtext_color} !important;
-        }}
-        [data-testid="stFileUploadDropzone"] span {{
-            color: {text_color} !important;
-            font-weight: 600 !important;
-            font-size: 15px !important;
-        }}
-        [data-testid="stFileUploadDropzone"] small {{
-            color: {caption_color} !important;
-            font-size: 12.5px !important;
-        }}
-        /* Prominent Crimson Red Browse Button - NEVER WHITE-ON-WHITE */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+        }
+        [data-testid="stFileUploadDropzone"] * {
+            color: #334155 !important;
+        }
+        [data-testid="stFileUploadDropzone"] span {
+            color: #0f172a !important;
+            font-weight: 700 !important;
+            font-size: 15.5px !important;
+        }
+        [data-testid="stFileUploadDropzone"] small {
+            color: #64748b !important;
+            font-size: 13px !important;
+        }
+        /* Explicit Crimson Red Browse Button */
         [data-testid="stFileUploadDropzone"] button,
         [data-testid="stFileUploader"] button,
         section[data-testid="stFileUploadDropzone"] button,
         [data-testid="stFileUploader"] [data-testid="baseButton-secondary"],
-        [data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"] {{
+        [data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"] {
             background-color: #ef4444 !important;
             color: #ffffff !important;
             border: none !important;
             border-radius: 8px !important;
-            padding: 9px 24px !important;
+            padding: 10px 26px !important;
             font-weight: 700 !important;
-            font-size: 14.5px !important;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35) !important;
+            font-size: 15px !important;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4) !important;
+            cursor: pointer !important;
             transition: all 0.2s ease !important;
-        }}
+        }
         [data-testid="stFileUploadDropzone"] button *,
-        [data-testid="stFileUploader"] button * {{
+        [data-testid="stFileUploader"] button * {
             color: #ffffff !important;
             font-weight: 700 !important;
-        }}
+        }
         [data-testid="stFileUploadDropzone"] button:hover,
-        [data-testid="stFileUploader"] button:hover {{
+        [data-testid="stFileUploader"] button:hover {
             background-color: #dc2626 !important;
             color: #ffffff !important;
             transform: translateY(-1px) !important;
-        }}
+        }
 
-        /* 5. General Buttons */
+        /* 5. GENERAL BUTTONS */
         div.stButton > button,
         button[kind="secondary"],
-        .stButton > button {{
-            background-color: {btn_bg} !important;
-            color: {btn_text} !important;
-            border: 1px solid {btn_border} !important;
+        .stButton > button {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+            border: 1.5px solid #cbd5e1 !important;
             border-radius: 8px !important;
-            padding: 10px 20px !important;
+            padding: 10px 22px !important;
             font-weight: 600 !important;
             font-size: 14.5px !important;
             transition: all 0.2s ease-in-out !important;
-        }}
+        }
         div.stButton > button *,
-        button[kind="secondary"] * {{
-            color: {btn_text} !important;
+        button[kind="secondary"] * {
+            color: #0f172a !important;
             font-weight: 600 !important;
-        }}
+        }
         div.stButton > button:hover,
-        button[kind="secondary"]:hover {{
+        button[kind="secondary"]:hover {
             border-color: #ef4444 !important;
             color: #ef4444 !important;
-        }}
+            background-color: #fef2f2 !important;
+        }
         button[kind="primary"],
-        .stButton > button[kind="primary"] {{
+        .stButton > button[kind="primary"] {
             background-color: #ef4444 !important;
             color: #ffffff !important;
             border: none !important;
             border-radius: 8px !important;
-            padding: 10px 20px !important;
+            padding: 10px 22px !important;
             font-weight: 700 !important;
-            font-size: 14.5px !important;
+            font-size: 15px !important;
             box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35) !important;
-        }}
+        }
         button[kind="primary"] *,
-        .stButton > button[kind="primary"] * {{
+        .stButton > button[kind="primary"] * {
             color: #ffffff !important;
             font-weight: 700 !important;
-        }}
+        }
         button[kind="primary"]:hover,
-        .stButton > button[kind="primary"]:hover {{
+        .stButton > button[kind="primary"]:hover {
             background-color: #dc2626 !important;
             color: #ffffff !important;
-        }}
+        }
 
-        /* 6. Alert & Notification Boxes */
-        div[data-testid="stAlert"] {{
-            background-color: {info_bg} !important;
-            border: 1px solid {info_border} !important;
-            color: {info_text} !important;
+        /* 6. ALERT & NOTIFICATION BOXES */
+        div[data-testid="stAlert"] {
+            background-color: #eff6ff !important;
+            border: 1px solid #bfdbfe !important;
+            color: #1e40af !important;
             border-radius: 8px !important;
             padding: 14px 18px !important;
-        }}
-        div[data-testid="stAlert"] * {{
-            color: {info_text} !important;
-            font-weight: 500 !important;
-        }}
+        }
+        div[data-testid="stAlert"] * {
+            color: #1e40af !important;
+            font-weight: 600 !important;
+        }
 
-        /* 7. Headings & Typography */
-        h1, h2, h3, h4, h5, h6 {{
-            color: {text_color} !important;
+        /* 7. HEADINGS & TYPOGRAPHY */
+        h1, h2, h3, h4 {
+            color: #0f172a !important;
             font-weight: 700 !important;
-        }}
-        .stMarkdown p, .stMarkdown li, .stMarkdown span {{
-            color: {subtext_color} !important;
-            font-size: 14.5px !important;
+        }
+        h5, h6 {
+            color: #334155 !important;
+            font-weight: 600 !important;
+        }
+        .stMarkdown p, .stMarkdown li, .stMarkdown span {
+            color: #1e293b !important;
+            font-size: 15px !important;
             line-height: 1.6 !important;
-        }}
-        .stCaption, [data-testid="stCaptionContainer"] {{
-            color: {caption_color} !important;
+        }
+        .stCaption, [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] * {
+            color: #475569 !important;
             font-size: 13.5px !important;
             font-weight: 500 !important;
-        }}
+        }
 
-        /* 8. Tabs */
-        button[data-baseweb="tab"] {{
-            color: {caption_color} !important;
+        /* 8. TABS */
+        button[data-baseweb="tab"] {
+            color: #475569 !important;
             font-weight: 600 !important;
             font-size: 15px !important;
-        }}
-        button[data-baseweb="tab"][aria-selected="true"] {{
+        }
+        button[data-baseweb="tab"][aria-selected="true"] {
             color: #ef4444 !important;
-            border-bottom-color: #ef4444 !important;
+            border-bottom: 3px solid #ef4444 !important;
             font-weight: 700 !important;
-        }}
+        }
+        button[data-baseweb="tab"] * {
+            color: inherit !important;
+        }
 
-        /* 9. Text Area & Inputs */
-        .stTextArea textarea {{
+        /* 9. INPUTS, LABELS & TEXT AREAS */
+        .stTextArea textarea {
             color: #0f172a !important;
             background-color: #ffffff !important;
             font-weight: 600 !important;
             font-size: 15px !important;
             border: 2px solid #cbd5e1 !important;
             border-radius: 8px !important;
-        }}
+        }
         .stTextArea label,
         .stTextInput label,
-        .stSelectbox label {{
-            color: {text_color} !important;
-            font-weight: 600 !important;
+        .stSelectbox label,
+        [data-testid="stWidgetLabel"],
+        [data-testid="stWidgetLabel"] * {
+            color: #0f172a !important;
+            font-weight: 700 !important;
             font-size: 14.5px !important;
-        }}
+        }
 
-        /* 10. Badges & Highlights */
-        .scam-card {{
-            background: {card_bg};
-            border: 1px solid {border_color};
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        }}
-        .metric-container {{
-            background: {card_bg};
-            border: 1px solid {border_color};
-            border-left: 4px solid #6366f1;
-            padding: 15px;
-            border-radius: 10px;
-        }}
-        .badge-critical {{ background-color: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
-        .badge-high {{ background-color: #f97316; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
-        .badge-medium {{ background-color: #eab308; color: black; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
-        .badge-low {{ background-color: #16a34a; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
-        .highlight-keyword {{ background-color: rgba(239, 68, 68, 0.2); color: #dc2626; border-bottom: 2px solid #ef4444; padding: 0 4px; border-radius: 4px; font-weight: 700; }}
+        /* 10. CARDS & BADGES */
+        .scam-card {
+            background-color: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 14px !important;
+            padding: 22px !important;
+            margin-bottom: 16px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+        }
+        .metric-container {
+            background-color: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-left: 5px solid #6366f1 !important;
+            padding: 18px !important;
+            border-radius: 10px !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+        }
+        .badge-critical { background-color: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }
+        .badge-high { background-color: #f97316; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }
+        .badge-medium { background-color: #eab308; color: black; padding: 4px 10px; border-radius: 6px; font-weight: bold; }
+        .badge-low { background-color: #16a34a; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }
+        .highlight-keyword { background-color: rgba(239, 68, 68, 0.2); color: #dc2626; border-bottom: 2px solid #ef4444; padding: 0 4px; border-radius: 4px; font-weight: 700; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -655,7 +651,7 @@ def fetch_all_history():
 def main():
     if "theme" not in st.session_state:
         st.session_state.theme = "Light"
-    apply_custom_css(st.session_state.theme)
+    apply_custom_css()
 
     model = load_ml_model()
     
