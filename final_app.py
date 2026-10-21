@@ -98,106 +98,249 @@ st.set_page_config(
 def apply_custom_css(theme_mode="Dark"):
     is_dark = (theme_mode == "Dark")
     bg_color = "#0e1117" if is_dark else "#f8f9fa"
-    card_bg = "#1e222d" if is_dark else "#ffffff"
-    text_color = "#ffffff" if is_dark else "#0f172a"
+    card_bg = "#161b26" if is_dark else "#ffffff"
+    text_color = "#f8fafc" if is_dark else "#0f172a"
     subtext_color = "#e2e8f0" if is_dark else "#334155"
     border_color = "#2e3440" if is_dark else "#e2e8f0"
-    sidebar_bg = "#161b22" if is_dark else "#f8f9fa"
-    metric_val_color = "#f8fafc" if is_dark else "#0f172a"
-    metric_lbl_color = "#94a3b8" if is_dark else "#475569"
+    sidebar_bg = "#11141c" if is_dark else "#f8f9fa"
+    metric_val_color = "#38bdf8" if is_dark else "#0284c7"
+    metric_lbl_color = "#cbd5e1" if is_dark else "#475569"
     btn_bg = "#1e293b" if is_dark else "#ffffff"
-    btn_text = "#f8fafc" if is_dark else "#0f172a"
+    btn_text = "#ffffff" if is_dark else "#0f172a"
     btn_border = "#475569" if is_dark else "#cbd5e1"
-    info_bg = "#172554" if is_dark else "#eff6ff"
-    info_text = "#bfdbfe" if is_dark else "#1e40af"
-    info_border = "#2563eb" if is_dark else "#bfdbfe"
     
     st.markdown(f"""
     <style>
+        /* 1. Global Page Background & Text */
         .stApp {{
-            background-color: {bg_color};
-            color: {text_color};
+            background-color: {bg_color} !important;
+            color: {text_color} !important;
         }}
+        
+        /* 2. Sidebar Styling */
         [data-testid="stSidebar"] {{
             background-color: {sidebar_bg} !important;
             border-right: 1px solid {border_color} !important;
         }}
-        [data-testid="stSidebar"] * {{
-            color: {text_color} !important;
+        [data-testid="stSidebar"] h1,
+        [data-testid="stSidebar"] h2,
+        [data-testid="stSidebar"] h3,
+        [data-testid="stSidebar"] h4 {{
+            color: #ffffff !important;
         }}
-        /* High-Contrast Streamlit Metrics */
+        [data-testid="stSidebar"] p,
+        [data-testid="stSidebar"] span,
+        [data-testid="stSidebar"] label,
+        [data-testid="stSidebar"] div {{
+            color: #e2e8f0 !important;
+        }}
+        [data-testid="stSidebar"] [data-testid="stRadio"] label {{
+            color: #f1f5f9 !important;
+            font-size: 14.5px !important;
+            font-weight: 500 !important;
+        }}
+        
+        /* 3. Metrics - High-Contrast Distinct Colors */
+        [data-testid="stMetric"] {{
+            background-color: {card_bg} !important;
+            border: 1px solid {border_color} !important;
+            border-radius: 12px !important;
+            padding: 16px 20px !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+        }}
+        [data-testid="stMetric"]:hover {{
+            border-color: #38bdf8 !important;
+        }}
+        [data-testid="stMetricLabel"] {{
+            color: {metric_lbl_color} !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }}
+        [data-testid="stMetricLabel"] * {{
+            color: {metric_lbl_color} !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+        }}
         [data-testid="stMetricValue"] {{
             color: {metric_val_color} !important;
+            font-size: 32px !important;
             font-weight: 800 !important;
-            font-size: 28px !important;
+            line-height: 1.2 !important;
         }}
         [data-testid="stMetricValue"] * {{
             color: {metric_val_color} !important;
             font-weight: 800 !important;
         }}
-        [data-testid="stMetricLabel"] {{
-            color: {metric_lbl_color} !important;
-            font-weight: 600 !important;
-            font-size: 14px !important;
+        [data-testid="stMetricDelta"] {{
+            font-size: 13px !important;
+            font-weight: 700 !important;
         }}
-        [data-testid="stMetricLabel"] * {{
-            color: {metric_lbl_color} !important;
-            font-weight: 600 !important;
+
+        /* 4. Audio Section: File Uploader & Browse Button (Fixed White-on-White) */
+        [data-testid="stFileUploadDropzone"],
+        section[data-testid="stFileUploadDropzone"] {{
+            background-color: {card_bg} !important;
+            border: 2px dashed #6366f1 !important;
+            border-radius: 12px !important;
+            padding: 24px 20px !important;
+            text-align: center !important;
         }}
-        /* High-Contrast Info/Alert Boxes */
-        div[data-testid="stAlert"] {{
-            background-color: {info_bg} !important;
-            color: {info_text} !important;
-            border: 1px solid {info_border} !important;
+        [data-testid="stFileUploadDropzone"] * {{
+            color: #cbd5e1 !important;
+        }}
+        [data-testid="stFileUploadDropzone"] span {{
+            color: #f8fafc !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+        }}
+        [data-testid="stFileUploadDropzone"] small {{
+            color: #94a3b8 !important;
+            font-size: 12.5px !important;
+        }}
+        /* Explicit High-Contrast Red Upload Button */
+        [data-testid="stFileUploadDropzone"] button,
+        [data-testid="stFileUploader"] button,
+        section[data-testid="stFileUploadDropzone"] button,
+        [data-testid="stFileUploader"] [data-testid="baseButton-secondary"],
+        [data-testid="stFileUploader"] [data-testid="stBaseButton-secondary"] {{
+            background-color: #ef4444 !important;
+            color: #ffffff !important;
+            border: none !important;
             border-radius: 8px !important;
+            padding: 8px 22px !important;
+            font-weight: 700 !important;
+            font-size: 14px !important;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4) !important;
+            transition: all 0.2s ease !important;
         }}
-        div[data-testid="stAlert"] * {{
-            color: {info_text} !important;
-            font-weight: 500 !important;
+        [data-testid="stFileUploadDropzone"] button *,
+        [data-testid="stFileUploader"] button * {{
+            color: #ffffff !important;
+            font-weight: 700 !important;
         }}
-        /* Buttons */
-        div.stButton > button {{
+        [data-testid="stFileUploadDropzone"] button:hover,
+        [data-testid="stFileUploader"] button:hover {{
+            background-color: #dc2626 !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+        }}
+
+        /* 5. General Buttons */
+        div.stButton > button,
+        button[kind="secondary"],
+        .stButton > button {{
             background-color: {btn_bg} !important;
             color: {btn_text} !important;
             border: 1px solid {btn_border} !important;
             border-radius: 8px !important;
+            padding: 10px 20px !important;
             font-weight: 600 !important;
-            transition: all 0.2s ease-in-out;
+            font-size: 14.5px !important;
+            transition: all 0.2s ease-in-out !important;
         }}
-        div.stButton > button:hover {{
+        div.stButton > button *,
+        button[kind="secondary"] * {{
+            color: {btn_text} !important;
+            font-weight: 600 !important;
+        }}
+        div.stButton > button:hover,
+        button[kind="secondary"]:hover {{
+            background-color: #2e3440 !important;
             border-color: #ef4444 !important;
             color: #ef4444 !important;
         }}
-        button[kind="primary"] {{
+        button[kind="primary"],
+        .stButton > button[kind="primary"] {{
             background-color: #ef4444 !important;
             color: #ffffff !important;
             border: none !important;
+            border-radius: 8px !important;
+            padding: 10px 20px !important;
+            font-weight: 700 !important;
+            font-size: 14.5px !important;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35) !important;
         }}
-        button[kind="primary"]:hover {{
+        button[kind="primary"] *,
+        .stButton > button[kind="primary"] * {{
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }}
+        button[kind="primary"]:hover,
+        .stButton > button[kind="primary"]:hover {{
             background-color: #dc2626 !important;
             color: #ffffff !important;
         }}
-        /* Typography & Headers */
+
+        /* 6. Alert & Notification Boxes */
+        div[data-testid="stAlert"] {{
+            background-color: #0f1f38 !important;
+            border: 1px solid #1e40af !important;
+            color: #bfdbfe !important;
+            border-radius: 8px !important;
+            padding: 14px 18px !important;
+        }}
+        div[data-testid="stAlert"] * {{
+            color: #dbeafe !important;
+            font-weight: 500 !important;
+        }}
+
+        /* 7. Headings & Typography */
         h1, h2, h3, h4, h5, h6 {{
-            color: {text_color} !important;
+            color: #ffffff !important;
             font-weight: 700 !important;
         }}
-        p, span, label, li {{
-            color: {subtext_color};
+        .stMarkdown p, .stMarkdown li, .stMarkdown span {{
+            color: {subtext_color} !important;
+            font-size: 14.5px !important;
+            line-height: 1.6 !important;
         }}
         .stCaption, [data-testid="stCaptionContainer"] {{
-            color: {metric_lbl_color} !important;
+            color: #94a3b8 !important;
+            font-size: 13px !important;
         }}
+
+        /* 8. Tabs */
+        button[data-baseweb="tab"] {{
+            color: #cbd5e1 !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+        }}
+        button[data-baseweb="tab"][aria-selected="true"] {{
+            color: #ef4444 !important;
+            border-bottom-color: #ef4444 !important;
+            font-weight: 700 !important;
+        }}
+
+        /* 9. Text Area & Inputs */
+        .stTextArea textarea {{
+            color: #0f172a !important;
+            background-color: #ffffff !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+            border: 2px solid #cbd5e1 !important;
+            border-radius: 8px !important;
+        }}
+        .stTextArea label,
+        .stTextInput label,
+        .stSelectbox label {{
+            color: #ffffff !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+        }}
+
+        /* 10. Badges & Highlights */
         .scam-card {{
             background: {card_bg};
             border: 1px solid {border_color};
             border-radius: 14px;
             padding: 20px;
             margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }}
         .metric-container {{
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
             border-left: 4px solid #6366f1;
             padding: 15px;
             border-radius: 10px;
@@ -206,18 +349,7 @@ def apply_custom_css(theme_mode="Dark"):
         .badge-high {{ background-color: #f97316; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
         .badge-medium {{ background-color: #eab308; color: black; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
         .badge-low {{ background-color: #22c55e; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; }}
-        .highlight-keyword {{ background-color: rgba(239, 68, 68, 0.25); color: #f87171; border-bottom: 2px solid #ef4444; padding: 0 4px; border-radius: 4px; }}
-        .stTextArea textarea {{
-            color: #000000 !important;
-            background-color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 15px !important;
-            border: 2px solid #cbd5e1 !important;
-        }}
-        .stTextArea label {{
-            color: {text_color} !important;
-            font-weight: 600 !important;
-        }}
+        .highlight-keyword {{ background-color: rgba(239, 68, 68, 0.35); color: #fca5a5; border-bottom: 2px solid #ef4444; padding: 0 4px; border-radius: 4px; font-weight: 700; }}
     </style>
     """, unsafe_allow_html=True)
 
