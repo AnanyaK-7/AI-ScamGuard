@@ -99,7 +99,7 @@ def apply_custom_css():
     st.markdown("""
     <style>
         /* 1. FORCE CLEAN LIGHT THEME ON ALL APP CONTAINERS */
-        html, body, [class*="css"], .stApp, [data-testid="stAppViewContainer"], section.main, div.block-container {
+        html, body, .stApp, [data-testid="stAppViewContainer"], section.main, div.block-container {
             background-color: #f8fafc !important;
             color: #0f172a !important;
         }
@@ -657,7 +657,7 @@ def main():
     
     with st.sidebar:
         st.title("🛡️ AI ScamGuard")
-        st.caption("v2.5 Production Architect Edition")
+        st.caption("v2.6 High-Contrast Edition")
         
         page = st.radio(
             "Navigation",
