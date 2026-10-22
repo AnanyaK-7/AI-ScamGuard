@@ -647,7 +647,10 @@ def fetch_all_history():
         pass
     if "history_store" in st.session_state and st.session_state.history_store:
         return pd.DataFrame(st.session_state.history_store)
-    return pd.DataFrame()
+    try:
+        return pd.DataFrame(database.get_fallback_records())
+    except Exception:
+        return pd.DataFrame()
 
 # ------------------------------------------------------------------------------
 # PAGE NAVIGATION & VIEWS
@@ -1008,8 +1011,11 @@ def render_history_page():
         df_hist = pd.DataFrame(database.get_fallback_records())
         
     # Search & Filters
-    search_q = st.text_input("🔍 Search History by Keyword:", "")
-    level_filter = st.selectbox("Filter by Risk Level:", ["All", "CRITICAL", "HIGH", "MEDIUM", "LOW"])
+    col_f1, col_f2 = st.columns([2, 1])
+    with col_f1:
+        search_q = st.text_input("🔍 Search History by Keyword:", "")
+    with col_f2:
+        level_filter = st.selectbox("Filter by Risk Level:", ["All", "CRITICAL", "HIGH", "MEDIUM", "LOW"])
     
     filtered_df = df_hist.copy()
     if search_q:
@@ -1017,7 +1023,20 @@ def render_history_page():
     if level_filter != "All":
         filtered_df = filtered_df[filtered_df["risk_level"] == level_filter]
         
+    st.success(f"📋 **{len(filtered_df)}** analysis audit records available.")
     st.dataframe(filtered_df, use_container_width=True)
+    
+    # Visual cards representation as guaranteed backup
+    with st.expander("📑 Detailed Historical Audit Feed (Card View)", expanded=True):
+        for _, row in filtered_df.iterrows():
+            r_badge = "🔴" if row.get("risk_level") == "CRITICAL" else ("🟠" if row.get("risk_level") == "HIGH" else ("🟡" if row.get("risk_level") == "MEDIUM" else "🟢"))
+            st.markdown(f"**{r_badge} Scan #{row.get('id', '')}: {row.get('scam_type', 'Scan')}** (`{row.get('risk_level', 'LOW')}` - Score: `{row.get('risk_score', 0)}/100`) — *{row.get('created_at', '')}*")
+            st.write(f"**Input:** {row.get('input_text', '')}")
+            if row.get('transcript'):
+                st.caption(f"🎙️ Audio Transcript: {row.get('transcript')}")
+            if row.get('indicators'):
+                st.caption(f"🚨 Indicators: {row.get('indicators')}")
+            st.markdown("---")
     
     # Export Options
     c1, c2 = st.columns(2)
