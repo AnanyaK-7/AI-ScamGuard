@@ -74,6 +74,10 @@ except ImportError:
 
 try:
     import database
+    import mysql.connector
+    _cfg = database.get_config()
+    _test_conn = mysql.connector.connect(**_cfg, connection_timeout=2)
+    _test_conn.close()
     MYSQL_AVAILABLE = True
 except Exception:
     MYSQL_AVAILABLE = False
@@ -668,12 +672,11 @@ def main():
         st.markdown("### System Status")
         st.markdown(f"**ML Engine:** {'✅ Active' if model else '❌ Missing'}")
         st.markdown(f"**Whisper:** {'✅ Available' if WHISPER_AVAILABLE else '⚠️ Absent'}")
-        st.markdown(f"**MySQL DB:** {'✅ Connected' if MYSQL_AVAILABLE else '⚠️ Offline (Local Fallback)'}")
+        st.markdown(f"**Database:** {'✅ MySQL Connected' if MYSQL_AVAILABLE else '🟢 SQLite (Auto-Synced)'}")
         
         if st.button("🔄 Sync Database", use_container_width=True):
-            if MYSQL_AVAILABLE:
-                ok, msg = database.init_db()
-                st.toast(msg, icon="✅" if ok else "❌")
+            ok, msg = database.init_db()
+            st.toast(msg, icon="✅" if ok else "❌")
 
     # Render Pages
     if page == "🏠 Home":
