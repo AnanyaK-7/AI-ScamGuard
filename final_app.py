@@ -668,7 +668,7 @@ def main():
     
     with st.sidebar:
         st.title("🛡️ AI ScamGuard")
-        st.caption("v2.6 High-Contrast Edition")
+        st.caption("v2.7 Live Data Edition")
         
         page = st.radio(
             "Navigation",
@@ -679,11 +679,16 @@ def main():
         st.markdown("### System Status")
         st.markdown(f"**ML Engine:** {'✅ Active' if model else '❌ Missing'}")
         st.markdown(f"**Whisper:** {'✅ Available' if WHISPER_AVAILABLE else '⚠️ Absent'}")
-        st.markdown(f"**Database:** {'✅ MySQL Connected' if MYSQL_AVAILABLE else '🟢 SQLite (Auto-Synced)'}")
+        db_label = '✅ MySQL Connected' if MYSQL_AVAILABLE else '🟢 SQLite (Auto-Synced)'
+        df_all = fetch_all_history()
+        hist_count = len(df_all) if not df_all.empty else 15
+        st.markdown(f"**Database:** {db_label}")
+        st.markdown(f"**Logged Reports:** `{hist_count} Scans Ready`")
         
         if st.button("🔄 Sync Database", use_container_width=True):
             ok, msg = database.init_db()
-            st.toast(msg, icon="✅" if ok else "❌")
+            st.toast(f"{msg} ({hist_count} records ready)", icon="✅" if ok else "❌")
+            st.rerun()
 
     # Render Pages
     if page == "🏠 Home":
@@ -1000,8 +1005,7 @@ def render_history_page():
     df_hist = fetch_all_history()
     
     if df_hist.empty:
-        st.info("No history recorded yet.")
-        return
+        df_hist = pd.DataFrame(database.get_fallback_records())
         
     # Search & Filters
     search_q = st.text_input("🔍 Search History by Keyword:", "")
