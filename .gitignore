@@ -4,9 +4,7 @@
 .env.*
 *.env
 
-# Local Databases
-scamguard.db
-*.db
+# Local Databases (scamguard.db committed so cloud deployment has history out of the box)
 *.sqlite
 *.sqlite3
 

@@ -74,11 +74,14 @@ except ImportError:
 
 try:
     import database
-    import mysql.connector
     _cfg = database.get_config()
-    _test_conn = mysql.connector.connect(**_cfg, connection_timeout=2)
-    _test_conn.close()
-    MYSQL_AVAILABLE = True
+    if database.should_try_mysql(_cfg):
+        import mysql.connector
+        _test_conn = mysql.connector.connect(**_cfg, connection_timeout=2)
+        _test_conn.close()
+        MYSQL_AVAILABLE = True
+    else:
+        MYSQL_AVAILABLE = False
 except Exception:
     MYSQL_AVAILABLE = False
 
@@ -630,21 +633,18 @@ def record_analysis_event(text, transcript, pred, conf, risk, level, scam_type, 
         st.session_state.history_store = []
     st.session_state.history_store.insert(0, entry)
 
-    if MYSQL_AVAILABLE:
-        try:
-            database.save_analysis(text, pred, risk, scam_type, indicators, transcript, conf, level)
-        except Exception as e:
-            pass
+    try:
+        database.save_analysis(text, pred, risk, scam_type, indicators, transcript, conf, level)
+    except Exception:
+        pass
 
 def fetch_all_history():
-    history = []
-    if MYSQL_AVAILABLE:
-        try:
-            rows = database.get_history(100)
-            if rows:
-                return pd.DataFrame(rows)
-        except Exception:
-            pass
+    try:
+        rows = database.get_history(100)
+        if rows:
+            return pd.DataFrame(rows)
+    except Exception:
+        pass
     if "history_store" in st.session_state and st.session_state.history_store:
         return pd.DataFrame(st.session_state.history_store)
     return pd.DataFrame()
@@ -653,6 +653,13 @@ def fetch_all_history():
 # PAGE NAVIGATION & VIEWS
 # ------------------------------------------------------------------------------
 def main():
+    if "db_initialized" not in st.session_state:
+        try:
+            database.init_db()
+        except Exception:
+            pass
+        st.session_state.db_initialized = True
+
     if "theme" not in st.session_state:
         st.session_state.theme = "Light"
     apply_custom_css()
